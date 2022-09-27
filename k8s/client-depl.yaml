@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: client-depl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: client-app
+  template:
+   metadata:
+     labels:
+       app: client-app
+   spec:
+     containers:
+     - name: client
+       image: theunrulydev/client-server
+       ports:
+         - containerPort: 3000
