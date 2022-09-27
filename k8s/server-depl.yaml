@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: node-server-depl
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-server
+  template:
+   metadata:
+     labels:
+       app: node-server
+   spec:
+     containers:
+     - name: server
+       image: theunrulydev/node-server
+       ports:
+         - containerPort: 5000
+       env:
+         - name: REDIS_HOST
+           value: redis-server-cluster-ip-srv
+         - name: REDIS_PORT
+           value: "6379"
+         - name: PGUSER
+           value: postgres
+         - name: PGHOST
+           value: postgres-server-cluster-ip-srv
+         - name: PGPORT
+           value: "5432"
+         - name: PGDATABASE
+           value: postgres
+         - name: PGPASSWORD
+           valueFrom:
+             secretKeyRef:
+               name: pgpassword
+               key: PGPASSWORD
+    
+
